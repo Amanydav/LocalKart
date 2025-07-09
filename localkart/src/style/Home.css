@@ -1,0 +1,257 @@
+/* .home-page {
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+/* Popular Services */
+.services-overview {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.services-overview h2 {
+  font-size: 2rem;
+  color: #0077cc;
+  margin-bottom: 1.5rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease-in-out;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+}
+
+.service-card img {
+  width: 80%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.service-info {
+  padding: 0.75rem;
+}
+
+.service-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Why Choose Section */
+.why-choose-section {
+  background: #f9fafb;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.why-choose-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 3rem;
+}
+
+.features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  flex: 1 1 200px;
+  max-width: 260px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.feature-box:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  background: #dbeafe;
+  color: #2563eb;
+  font-size: 1.75rem;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.feature-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+.feature-desc {
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+/* Provider CTA */
+.provider-cta {
+  padding: 3rem 1rem;
+  background: linear-gradient(90deg, #0077cc, #00c6ff);
+  color: #fff;
+  text-align: center;
+}
+
+.provider-cta h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.provider-cta p {
+  margin-bottom: 1rem;
+}
+
+.cta-button {
+  padding: 0.75rem 1.5rem;
+  background: #fff;
+  color: #0077cc;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.cta-button:hover {
+  background: #f0f0f0;
+}
+
+/* Footer */
+.footer-dark {
+  background-color: #0f172a; /* Deep navy */
+  color: #cbd5e1;
+  padding: 3rem 1rem;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-dark h2 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.footer-dark p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #94a3b8;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+.static-page {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 1rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.static-page h1 {
+  font-size: 2rem;
+  color: #0077cc;
+  margin-bottom: 1rem;
+}
+
+.static-page p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.get-started-section {
+  background-color: #2563eb; /* blue background */
+  color: #fff;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.get-started-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.get-started-section p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.get-started-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.get-started-btn {
+  background: #fff;
+  color: #0077cc;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.get-started-btn:hover {
+  background: #f1f5f9;
+}
+
+.get-started-btn.secondary {
+  background: #ebf4ff;
+} */

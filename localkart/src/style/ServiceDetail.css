@@ -1,0 +1,36 @@
+.service-page {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.service-page h2 {
+  color: #0077cc;
+  margin-bottom: 0.5rem;
+}
+
+.service-page p {
+  margin-bottom: 1rem;
+}
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.image-gallery img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.service-list {
+  margin-bottom: 2rem;
+}
+
+.service-list li {
+  margin-bottom: 0.5rem;
+}
