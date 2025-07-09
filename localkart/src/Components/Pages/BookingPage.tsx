@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
+import MapPicker from "./MapPicker";
+
+emailjs.init("_ifDJ94YMPffwWLlN");
 
 const BookingPage = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    service: '',
-    date: '',
-    address: '',
-    captcha: '',
+    name: "",
+    phone: "",
+    email: "",
+    service: "",
+    date: "",
+    address: "",
+    captcha: "",
   });
 
-  const [captcha, setCaptcha] = useState({ question: '', answer: 0 });
+  const [captcha, setCaptcha] = useState({ question: "", answer: 0 });
 
   useEffect(() => {
     generateCaptcha();
@@ -20,24 +25,50 @@ const BookingPage = () => {
     const a = Math.floor(Math.random() * 10) + 1;
     const b = Math.floor(Math.random() * 10) + 1;
     setCaptcha({ question: `What is ${a} + ${b}?`, answer: a + b });
-    setFormData(prev => ({ ...prev, captcha: '' }));
+    setFormData((prev) => ({ ...prev, captcha: "" }));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (parseInt(formData.captcha) !== captcha.answer) {
-      alert('Captcha incorrect. Please try again.');
+      alert("Captcha incorrect. Please try again.");
       generateCaptcha();
       return;
     }
 
-    alert('Booking submitted successfully!');
-    // Handle form data submission here
+    const templateParams = {
+      user_name: formData.name,
+      user_phone: formData.phone,
+      user_email: formData.email,
+      user_service: formData.service,
+      user_date: formData.date,
+      user_address: formData.address,
+    };
+
+    try {
+      await emailjs.send("service_lfwrs5j", "template_7ab41ra", templateParams);
+      alert("Booking submitted successfully!");
+      // Reset form
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        service: "",
+        date: "",
+        address: "",
+        captcha: "",
+      });
+      generateCaptcha();
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      alert("Failed to submit booking.");
+    }
   };
 
   return (
@@ -45,109 +76,101 @@ const BookingPage = () => {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2">
         {/* Form Section */}
         <div className="p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Book a Service</h2>
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Full Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your Name"
-                className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="e.g. 9876543210"
-                className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Service</label>
-              <select
-                name="service"
-                value={formData.service}
-                onChange={handleChange}
-                className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                required
-              >
-                <option value="">Select a service</option>
-                <option>Plumbing</option>
-                <option>Electrician</option>
-                <option>AC Repair</option>
-                <option>Salon at Home</option>
-                <option>House Cleaning</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Preferred Date</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Address</label>
-              <textarea
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="Enter your full address"
-                rows={3}
-                className="mt-1 w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                required
-              />
-            </div>
+          <h2 className="text-3xl font-bold text-blue-700 mb-6">Book a Service</h2>
+          <form onSubmit={handleSubmit} className="space-y-5 text-sm">
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
+            />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Your Phone Number"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
+            />
+            <select
+              name="service"
+              value={formData.service}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
+            >
+              <option value="">Select a Service</option>
+              <option>Plumbing</option>
+              <option>Electrician</option>
+              <option>AC Repair</option>
+              <option>Salon at Home</option>
+              <option>House Cleaning</option>
+              <option>Painting</option>
+              <option>Carpentry</option>
+              <option>Pest Control</option>
+              <option>Groceries</option>
+              <option>Tutors</option>
+              <option>Tailors</option>
+            </select>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
+            />
+            <textarea
+              name="address"
+              placeholder="Your Full Address"
+              value={formData.address}
+              onChange={handleChange}
+              rows={3}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
+            ></textarea>
 
             {/* CAPTCHA */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Human Verification: {captcha.question}
-              </label>
+              <label className="block text-gray-700 mb-1">Human Verification: {captcha.question}</label>
               <input
                 type="text"
                 name="captcha"
                 value={formData.captcha}
                 onChange={handleChange}
                 placeholder="Enter answer"
-                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
                 required
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+              className="w-full py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
             >
               Book Now
             </button>
           </form>
         </div>
 
-        {/* Right Image */}
-        <div className="hidden lg:block">
-          <img
-            src="https://jungleworks.com/wp-content/uploads/2021/07/HyperLocalImg.png"
-            alt="Booking Visual"
-            className="w-full h-full object-cover"
-          />
+        {/* Map Picker Section */}
+        <div className="hidden lg:flex items-center justify-center p-8 bg-blue-50">
+          <div className="w-full">
+            <MapPicker onLocationSelect={(address) => setFormData((prev) => ({ ...prev, address }))} />
+          </div>
         </div>
       </div>
     </div>

@@ -23,7 +23,7 @@ const Contact = ({ serviceName = 'General Inquiry' }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e:  React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.user_email)) {
@@ -59,20 +59,19 @@ const Contact = ({ serviceName = 'General Inquiry' }) => {
   };
 
   return (
-    <div className="max-w-xl mx-auto my-12 p-8 bg-white rounded-xl shadow-md text-gray-800 font-sans">
-      <h2 className="text-2xl text-blue-600 font-semibold mb-2 text-center">Get in Touch</h2>
-      <p className="text-center mb-6 text-sm text-gray-600">
-        Have a question or need help? Fill out the form below and we’ll get back to you.
+    <div className="w-full p-6 bg-white rounded-2xl shadow-lg text-gray-800">
+      <h2 className="text-2xl font-bold text-blue-600 mb-2 text-center">Get in Touch</h2>
+      <p className="text-center text-gray-500 text-sm mb-6">
+        Need help or want to schedule a service? Fill out the form and we’ll respond shortly.
       </p>
 
       {status.success && (
-        <p className="text-green-600 text-center mb-4 text-sm">
-          ✅ Your message about <strong>{serviceName}</strong> was sent! We’ll reply to{' '}
-          <strong>{form.user_email}</strong> shortly.
+        <p className="text-green-600 text-center text-sm mb-4">
+          ✅ Your message about <strong>{serviceName}</strong> was sent successfully!
         </p>
       )}
 
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <input
           type="text"
           name="user_name"
@@ -80,7 +79,7 @@ const Contact = ({ serviceName = 'General Inquiry' }) => {
           value={form.user_name}
           onChange={handleChange}
           required
-          className="px-4 py-3 border border-gray-300 rounded-md text-base focus:outline-none focus:border-blue-500"
+          className="w-full px-4 py-3 border rounded-lg border-gray-300 focus:ring focus:ring-blue-200 focus:outline-none"
         />
         <input
           type="email"
@@ -89,16 +88,16 @@ const Contact = ({ serviceName = 'General Inquiry' }) => {
           value={form.user_email}
           onChange={handleChange}
           required
-          className="px-4 py-3 border border-gray-300 rounded-md text-base focus:outline-none focus:border-blue-500"
+          className="w-full px-4 py-3 border rounded-lg border-gray-300 focus:ring focus:ring-blue-200 focus:outline-none"
         />
         <input
           type="tel"
           name="user_phone"
-          placeholder="Your Phone Number"
+          placeholder="Your Phone"
           value={form.user_phone}
           onChange={handleChange}
           required
-          className="px-4 py-3 border border-gray-300 rounded-md text-base focus:outline-none focus:border-blue-500"
+          className="w-full px-4 py-3 border rounded-lg border-gray-300 focus:ring focus:ring-blue-200 focus:outline-none"
         />
         <input
           type="text"
@@ -107,7 +106,7 @@ const Contact = ({ serviceName = 'General Inquiry' }) => {
           value={form.user_address}
           onChange={handleChange}
           required
-          className="px-4 py-3 border border-gray-300 rounded-md text-base focus:outline-none focus:border-blue-500"
+          className="w-full px-4 py-3 border rounded-lg border-gray-300 focus:ring focus:ring-blue-200 focus:outline-none"
         />
         <textarea
           name="user_message"
@@ -116,32 +115,31 @@ const Contact = ({ serviceName = 'General Inquiry' }) => {
           value={form.user_message}
           onChange={handleChange}
           required
-          className="px-4 py-3 border border-gray-300 rounded-md text-base resize-y focus:outline-none focus:border-blue-500"
+          className="w-full px-4 py-3 border rounded-lg border-gray-300 resize-y focus:ring focus:ring-blue-200 focus:outline-none"
         ></textarea>
 
-        {status.error && <p className="text-red-600 text-center text-sm">{status.error}</p>}
+        {status.error && (
+          <p className="text-red-600 text-center text-sm">{status.error}</p>
+        )}
 
         <button
           type="submit"
           disabled={status.loading}
-          className="py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition disabled:opacity-60"
         >
           {status.loading ? 'Sending...' : 'Send Message'}
         </button>
       </form>
 
-      <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 text-sm font-medium text-blue-600">
-        <a href="tel:+911234567890" className="flex items-center gap-2 hover:text-blue-900">
-          📞 +91 12345 67890
-        </a>
-        <a href="mailto:ak7519240651@gmail.com" className="flex items-center gap-2 hover:text-blue-900">
-          📧 support@localkart.com
-        </a>
+      {/* Contact Options */}
+      <div className="mt-6 space-y-3 text-blue-600 text-sm text-center">
+        <a href="tel:+911234567890" className="block hover:text-blue-800 transition">📞 +91 12345 67890</a>
+        <a href="mailto:ak7519240651@gmail.com" className="block hover:text-blue-800 transition">📧 support@localkart.com</a>
         <a
           href="https://wa.me/917061188736"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 hover:text-blue-900"
+          className="inline-flex items-center justify-center gap-2 hover:text-blue-800 transition"
         >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"

@@ -10,7 +10,10 @@ const popularServices = [
   { name: 'House Cleaning', img: 'https://thumbs.dreamstime.com/b/smiling-cartoon-cleaning-woman-mop-bucket-384145220.jpg', to: '/services/cleaning' },
   { name: 'Painting', img: 'https://media.istockphoto.com/id/578576392/vector/painter-coloring-wall-by-paint-roller-people-occupations.jpg?s=612x612&w=0&k=20&c=pj4JtRaGsU66VRS8o49X-uS0ZWqYV98qDocq4zpk61Y=', to: '/services/painting' },
   { name: 'Carpentry', img: 'https://i.pinimg.com/originals/15/b4/07/15b4070ae324c30e412f413076c0f79b.jpg', to: '/services/carpentry' },
-  { name: 'Pest Control', img: 'https://thumbs.dreamstime.com/b/pest-control-symbol-rat-silhouette-pest-control-symbol-rat-silhouette-white-background-350446798.jpg', to: '/services/pest-control' }
+  { name: 'Pest Control', img: 'https://thumbs.dreamstime.com/b/pest-control-symbol-rat-silhouette-pest-control-symbol-rat-silhouette-white-background-350446798.jpg', to: '/services/pest-control' },
+  { name: 'Groceries', img: 'https://i.pinimg.com/originals/5d/6b/5b/5d6b5b167c0877f7079ddff8c4861fe4.jpg', to: '/services/groceries' },
+  { name: 'Tutors', img: 'https://thumbs.dreamstime.com/b/teacher-helping-student-studies-school-desk-cartoon-illustration-cartoon-illustration-teacher-helping-student-376254486.jpg', to: '/services/tutors' },
+  { name: 'Tailors', img: 'https://t4.ftcdn.net/jpg/09/07/28/05/360_F_907280531_QxHlhpy9nJjLsHI2AhGl9Z0t9j09wEZl.jpg', to: '/services/tailors' }
 ];
 
 const steps = [
@@ -78,9 +81,6 @@ const Home = () => {
   return (
     <div className="font-sans text-gray-800">
       <Hero />
-      
-
-     
 
       {/* Popular Services */}
       <section className="max-w-screen-xl mx-auto px-4 py-12 text-center">
@@ -88,7 +88,7 @@ const Home = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {popularServices.map((svc) => (
             <Link key={svc.name} to={svc.to} className="bg-white rounded-lg shadow-md hover:-translate-y-1 transition-transform">
-              <img src={svc.img} alt={svc.name} className="w-[90%] h-40 object-cover mx-auto mt-4 rounded" />
+              <img src={svc.img} alt={svc.name} className="w-[75%] h-50 object-cover mx-auto mt-4 rounded" />
               <div className="p-3">
                 <h3 className="text-lg font-medium">{svc.name}</h3>
               </div>
@@ -96,7 +96,8 @@ const Home = () => {
           ))}
         </div>
       </section>
-       {/* Call to Action */}
+
+      {/* Call to Action */}
       <section className="bg-blue-400 text-white py-16 px-4 text-center">
         <h2 className="text-2xl font-bold mb-2">Ready to Get Started?</h2>
         <p className="text-lg mb-8">Join thousands of satisfied customers and service providers</p>
@@ -106,7 +107,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Why Choose */}
+      {/* Why Choose LocalKart */}
       <section className="bg-gray-50 py-16 px-4 text-center">
         <h2 className="text-2xl font-bold text-gray-900 mb-12">Why Choose LocalKart?</h2>
         <div className="max-w-screen-xl mx-auto flex flex-wrap justify-center gap-8">
@@ -121,7 +122,8 @@ const Home = () => {
           ))}
         </div>
       </section>
-       {/* How It Works */}
+
+      {/* How It Works */}
       <section className="bg-gray-100 py-16 px-4">
         <h2 className="text-3xl font-bold text-center mb-16 text-blue-600">How LocalKart Works</h2>
         <div className="max-w-6xl mx-auto flex flex-col gap-16">
@@ -147,8 +149,6 @@ const Home = () => {
           ))}
         </div>
       </section>
-
-     
 
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-300 text-center py-12 px-4">
