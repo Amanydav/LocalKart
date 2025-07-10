@@ -16,6 +16,7 @@ const AuthPage = () => {
     password: '',
     confirmPassword: '',
     captcha: '',
+    role: '',
   });
 
   const [captcha, setCaptcha] = useState({ question: '', answer: 0 });
@@ -30,10 +31,10 @@ const AuthPage = () => {
     const a = Math.floor(Math.random() * 10) + 1;
     const b = Math.floor(Math.random() * 10) + 1;
     setCaptcha({ question: `What is ${a} + ${b}?`, answer: a + b });
-    setFormData((prev) => ({ ...prev, captcha: '' }));
+    setFormData(prev => ({ ...prev, captcha: '' }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -57,30 +58,34 @@ const AuthPage = () => {
         formData.email &&
         formData.dob &&
         formData.password &&
-        formData.confirmPassword
+        formData.confirmPassword &&
+        formData.role
       ) {
         if (formData.password !== formData.confirmPassword) {
           alert('Passwords do not match!');
           return;
         }
-        login();
+
+        login(); 
         navigate('/');
+      } else {
+        alert('Please fill out all fields including role.');
       }
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-100 px-4">
-      {/* Left Side Illustration */}
-      <div className="hidden md:flex w-1/2 items-center justify-center">
+      {/* Illustration Side */}
+      <div className="hidden md:flex w-1/2 justify-center">
         <img
           src="https://jungleworks.com/wp-content/uploads/2021/07/HyperLocalImg.png"
           alt="illustration"
-          className="w-full max-w-[500px] max-h-[400px] object-contain"
+          className="max-w-[500px] max-h-[400px] object-contain"
         />
       </div>
 
-      {/* Form Section */}
+      {/* Form Side */}
       <form
         onSubmit={handleSubmit}
         className="w-full md:w-1/2 max-w-md bg-white p-8 shadow-lg rounded-md"
@@ -100,7 +105,6 @@ const AuthPage = () => {
           className="w-full p-3 mb-4 border border-gray-300 rounded"
         />
 
-        {/* Signup Only */}
         {!isLogin && (
           <>
             <input
@@ -120,6 +124,22 @@ const AuthPage = () => {
               required
               className="w-full p-3 mb-4 border border-gray-300 rounded"
             />
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Select Role
+              </label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                required
+                className="w-full p-3 border border-gray-300 rounded"
+              >
+                <option value="" disabled>Select your role</option>
+                <option value="client">Client</option>
+                <option value="provider">Service Provider</option>
+              </select>
+            </div>
           </>
         )}
 
@@ -142,7 +162,6 @@ const AuthPage = () => {
           </span>
         </div>
 
-        {/* Confirm Password */}
         {!isLogin && (
           <div className="relative mb-4">
             <input
@@ -163,7 +182,6 @@ const AuthPage = () => {
           </div>
         )}
 
-        {/* Remember Me & Forgot Password */}
         {isLogin && (
           <div className="flex justify-between items-center text-sm mb-4">
             <label className="flex items-center gap-2">
@@ -179,7 +197,7 @@ const AuthPage = () => {
           </div>
         )}
 
-        {/* Captcha */}
+        {/* CAPTCHA */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Human Verification: {captcha.question}
@@ -195,7 +213,6 @@ const AuthPage = () => {
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
@@ -203,7 +220,6 @@ const AuthPage = () => {
           {isLogin ? 'Login' : 'Signup'}
         </button>
 
-        {/* Switch Login/Signup */}
         <p className="text-center mt-4 text-sm">
           {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
           <span

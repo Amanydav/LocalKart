@@ -19,11 +19,11 @@ const Contact = ({ serviceName = 'General Inquiry' }) => {
 
   const [status, setStatus] = useState({ loading: false, error: '', success: false });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.user_email)) {
@@ -154,3 +154,4 @@ const Contact = ({ serviceName = 'General Inquiry' }) => {
 };
 
 export default Contact;
+

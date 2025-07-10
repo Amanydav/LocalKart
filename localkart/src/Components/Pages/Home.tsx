@@ -123,7 +123,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* How LocalKart Works */}
       <section className="bg-gray-100 py-16 px-4">
         <h2 className="text-3xl font-bold text-center mb-16 text-blue-600">How LocalKart Works</h2>
         <div className="max-w-6xl mx-auto flex flex-col gap-16">
