@@ -10,6 +10,7 @@ const AuthPage = () => {
   const isLogin = location.pathname === '/login';
 
   const [formData, setFormData] = useState({
+    name: '', // ✅ Added Name field
     username: '',
     email: '',
     dob: '',
@@ -31,14 +32,16 @@ const AuthPage = () => {
     const a = Math.floor(Math.random() * 10) + 1;
     const b = Math.floor(Math.random() * 10) + 1;
     setCaptcha({ question: `What is ${a} + ${b}?`, answer: a + b });
-    setFormData(prev => ({ ...prev, captcha: '' }));
+    setFormData((prev) => ({ ...prev, captcha: '' }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (parseInt(formData.captcha) !== captcha.answer) {
@@ -47,36 +50,70 @@ const AuthPage = () => {
       return;
     }
 
-    if (isLogin) {
-      if (formData.username && formData.password) {
-        login();
-        navigate('/');
-      }
-    } else {
-      if (
-        formData.username &&
-        formData.email &&
-        formData.dob &&
-        formData.password &&
-        formData.confirmPassword &&
-        formData.role
-      ) {
+    try {
+      if (isLogin) {
+        const res = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: formData.username,
+            password: formData.password,
+          }),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert('Login successful!');
+          localStorage.setItem('username', formData.username);
+          login();
+          navigate('/');
+        } else {
+          alert(data.error || 'Login failed');
+        }
+      } else {
+        if (
+          !formData.name ||
+          !formData.username ||
+          !formData.email ||
+          !formData.dob ||
+          !formData.password ||
+          !formData.confirmPassword ||
+          !formData.role
+        ) {
+          alert('Please fill out all fields.');
+          return;
+        }
+
         if (formData.password !== formData.confirmPassword) {
           alert('Passwords do not match!');
           return;
         }
 
-        login(); 
-        navigate('/');
-      } else {
-        alert('Please fill out all fields including role.');
+        const res = await fetch('http://localhost:5000/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert('Signup successful!');
+          localStorage.setItem('username', formData.username);
+          login();
+          navigate('/');
+        } else {
+          alert(data.error || 'Signup failed');
+        }
       }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Something went wrong. Please try again later.');
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-100 px-4">
-      {/* Illustration Side */}
+      {/* Left: Illustration */}
       <div className="hidden md:flex w-1/2 justify-center">
         <img
           src="https://jungleworks.com/wp-content/uploads/2021/07/HyperLocalImg.png"
@@ -85,7 +122,7 @@ const AuthPage = () => {
         />
       </div>
 
-      {/* Form Side */}
+      {/* Right: Form */}
       <form
         onSubmit={handleSubmit}
         className="w-full md:w-1/2 max-w-md bg-white p-8 shadow-lg rounded-md"
@@ -94,7 +131,6 @@ const AuthPage = () => {
           {isLogin ? 'Login to LocalKart' : 'Create your LocalKart account'}
         </h2>
 
-        {/* Username */}
         <input
           type="text"
           name="username"
@@ -108,6 +144,16 @@ const AuthPage = () => {
         {!isLogin && (
           <>
             <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full p-3 mb-4 border border-gray-300 rounded"
+            />
+
+            <input
               type="email"
               name="email"
               placeholder="Email"
@@ -116,6 +162,7 @@ const AuthPage = () => {
               required
               className="w-full p-3 mb-4 border border-gray-300 rounded"
             />
+
             <input
               type="date"
               name="dob"
@@ -124,6 +171,7 @@ const AuthPage = () => {
               required
               className="w-full p-3 mb-4 border border-gray-300 rounded"
             />
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Select Role
@@ -174,7 +222,9 @@ const AuthPage = () => {
               className="w-full p-3 border border-gray-300 rounded pr-10"
             />
             <span
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() =>
+                setShowConfirmPassword(!showConfirmPassword)
+              }
               className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-gray-600"
             >
               {showConfirmPassword ? '🙈' : '👁️'}
