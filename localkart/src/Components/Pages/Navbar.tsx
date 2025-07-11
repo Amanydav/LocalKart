@@ -21,7 +21,6 @@ const Navbar = () => {
     { name: 'House Cleaning', path: 'cleaning' },
     { name: 'Painting', path: 'painting' },
     { name: 'Carpentry', path: 'carpentry' },
-    { name: 'Pest Control', path: 'pest-control' },
     { name: 'Groceries', path: 'groceries' },
     { name: 'Tutors', path: 'tutors' },
     { name: 'Tailors', path: 'tailors' },
@@ -58,6 +57,7 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     navigate('/login');
+    setDropdownOpen(false);
   };
 
   return (
@@ -121,6 +121,12 @@ const Navbar = () => {
             </button>
           </form>
 
+          {isLoggedIn && (
+            <Link to="/booking" className={`px-4 py-2 rounded transition ${location.pathname === '/booking' ? 'bg-green-600 text-white' : 'bg-green-500 text-white hover:bg-green-600'}`}>
+              Book
+            </Link>
+          )}
+
           <Link to="/provider" className={`${location.pathname === '/provider' ? 'text-blue-600 font-semibold' : ''} hover:text-blue-600`}>
             Become a Provider
           </Link>
@@ -136,16 +142,17 @@ const Navbar = () => {
             </>
           ) : (
             <div className="relative" ref={dropdownRef}>
-                    <button
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="  text-white font-semibold flex items-center justify-center"
-        >
-          👤
-        </button>
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="text-white font-semibold flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-full w-10 h-10"
+                aria-label="User menu"
+              >
+                👤
+              </button>
 
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                  <div className="p-4 text-sm text-gray-800">
+                  <div className="p-4 text-sm text-gray-800 space-y-1">
                     <p><strong>Username:</strong> {userInfo?.username}</p>
                     <p><strong>Email:</strong> {userInfo?.email}</p>
                     <p><strong>Role:</strong> {userInfo?.role}</p>
@@ -164,6 +171,62 @@ const Navbar = () => {
           )}
         </div>
       </div>
+
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-200 shadow-inner">
+          <div className="flex flex-col gap-2 p-4 text-gray-800">
+            <Link to="/" className="py-2 hover:text-blue-600" onClick={() => setMobileMenuOpen(false)}>
+              Home
+            </Link>
+            <div className="relative">
+              <button onClick={() => setServicesOpen(prev => !prev)} className="w-full flex justify-between items-center py-2 hover:text-blue-600">
+                <span>Services</span>
+                <span>{servicesOpen ? '▴' : '▾'}</span>
+              </button>
+              {servicesOpen && (
+                <ul className="pl-4 space-y-1">
+                  {services.map(service => (
+                    <li key={service.path}>
+                      <Link
+                        to={`/services/${service.path}`}
+                        className="block py-1 hover:text-blue-600 capitalize"
+                        onClick={() => {
+                          setServicesOpen(false);
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        {service.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {isLoggedIn && (
+              <Link to="/booking" className="py-2 hover:text-blue-600" onClick={() => setMobileMenuOpen(false)}>
+                Book
+              </Link>
+            )}
+            <Link to="/provider" className="py-2 hover:text-blue-600" onClick={() => setMobileMenuOpen(false)}>
+              Become a Provider
+            </Link>
+            {!isLoggedIn ? (
+              <>
+                <Link to="/login" className="py-2 hover:text-blue-600" onClick={() => setMobileMenuOpen(false)}>
+                  Login
+                </Link>
+                <Link to="/signup" className="py-2 hover:text-blue-600" onClick={() => setMobileMenuOpen(false)}>
+                  Signup
+                </Link>
+              </>
+            ) : (
+              <button onClick={handleLogout} className="py-2 text-left text-red-600 hover:text-red-800">
+                Logout
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
