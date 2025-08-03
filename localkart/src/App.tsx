@@ -23,7 +23,8 @@ import Tutors from './Components/Services/tutors';
 import Footer from './Components/Pages/Footer';
 import GetStarted from './Components/Pages/GetStarted';
 import Services from './Components/Pages/Services';
-
+import PaymentPage from './Components/Pages/Payment';
+import CartPage from './Components/Pages/CartPage';
 const App = () => {
   return (
     <>
@@ -50,6 +51,8 @@ const App = () => {
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
       <Footer/>
     </>
